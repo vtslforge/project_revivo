@@ -1,0 +1,9 @@
+# requirements.txt
+Flask
+numpy
+Pillow
+tensorflow
+jinja2
+google-auth-oauthlib
+google-api-python-client
+requests
