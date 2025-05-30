@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore | Revivo Health</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+        
+        .content {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(33, 150, 243, 0.7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 100;
+            text-decoration: none;
+        }
+        
+        .section-title {
+            color: #2196F3;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #0d47a1;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .explore-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .option-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(33, 150, 243, 0.2);
+        }
+        
+        .card-title {
+            color: #2196F3;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        
+        .nutrition-banner {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/assets/nutrition.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 40px;
+            border-radius: 10px;
+        }
+        
+        .banner-content {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .banner-content h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .banner-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .food-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .food-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid #e0e0e0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .vitamin-table {
+            overflow-x: auto;
+        }
+        
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .myth-box {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .plate-model {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+            background: white;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+        }
+        
+        .plate-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .section-vegetables {
+            width: 50%;
+            height: 50%;
+            background-color: #4CAF50;
+        }
+        
+        .section-proteins {
+            width: 25%;
+            height: 50%;
+            background-color: #F44336;
+        }
+        
+        .section-grains {
+            width: 25%;
+            height: 50%;
+            background-color: #FF9800;
+        }
+        
+        .section-fruits {
+            width: 25%;
+            height: 50%;
+            background-color: #9C27B0;
+        }
+        
+        .section-dairy {
+            width: 25%;
+            height: 50%;
+            background-color: #2196F3;
+        }
+        
+        .tab-container {
+            margin-top: 30px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+        
+        .tab-button.active {
+            opacity: 1;
+            font-weight: bold;
+            border-bottom: 3px solid #2196F3;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <a class="back-btn" href="/">← Dashboard</a>
+    
+    <div class="content">
+        <div class="nutrition-banner">
+            <div class="banner-content">
+                <h1>Nutrition Guide</h1>
+                <p>Discover the fundamentals of healthy eating and how proper nutrition can transform your wellbeing</p>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="openTab(event, 'core-nutrition')">Core Nutrition</button>
+                <button class="tab-button" onclick="openTab(event, 'food-groups')">Food Groups</button>
+                <button class="tab-button" onclick="openTab(event, 'vitamins-minerals')">Vitamins & Minerals</button>
+                <button class="tab-button" onclick="openTab(event, 'special-diets')">Special Diets</button>
+                <button class="tab-button" onclick="openTab(event, 'myth-busting')">Myth Busting</button>
+            </div>
+            
+            <!-- Core Nutrition Tab -->
+            <div id="core-nutrition" class="tab-content active">
+                <h2 class="subtitle">Basic Nutrition Principles</h2>
+                <p>Understanding the building blocks of nutrition is essential for making informed dietary choices. Nutrition can be divided into macronutrients (needed in large amounts) and micronutrients (needed in smaller amounts).</p>
+                
+                <h3>Macronutrients</h3>
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Proteins</h4>
+                        <p>The building blocks of body tissue that help with growth and repair. They're made up of amino acids.</p>
+                        <p><strong>Recommended intake:</strong> 0.8g per kg of body weight (more for athletes)</p>
+                        <p><strong>Sources:</strong> Meat, fish, eggs, dairy, legumes, tofu</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Carbohydrates</h4>
+                        <p>Your body's primary energy source, broken down into glucose for immediate energy or stored as glycogen.</p>
+                        <p><strong>Recommended intake:</strong> 45-65% of daily calories</p>
+                        <p><strong>Sources:</strong> Grains, starchy vegetables, fruits, legumes</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Fats</h4>
+                        <p>Essential for hormone production, vitamin absorption, and cell membrane integrity.</p>
+                        <p><strong>Recommended intake:</strong> 20-35% of daily calories</p>
+                        <p><strong>Sources:</strong> Oils, nuts, seeds, avocados, fatty fish</p>
+                    </div>
+                </div>
+                
+                <h3>Micronutrients</h3>
+                <p>These essential vitamins and minerals are required in small amounts but play critical roles in nearly all bodily processes.</p>
+                
+                <div class="info-box">
+                    <h4>Did you know?</h4>
+                    <p>The color of fruits and vegetables often indicates their nutrient content. For example, orange produce like carrots and sweet potatoes are high in beta-carotene, while leafy greens are rich in folate and vitamin K.</p>
+                </div>
+                
+                <h2 class="subtitle">Meal Planning & Portion Control</h2>
+                <p>Creating balanced meals doesn't need to be complicated. The plate model provides a simple visual guide:</p>
+                
+                <div class="plate-model">
+                    <div class="plate-section section-vegetables">Vegetables<br>(50%)</div>
+                    <div class="plate-section section-proteins">Protein<br>(25%)</div>
+                    <div class="plate-section section-grains">Whole Grains<br>(25%)</div>
+                </div>
+                
+                <h3>Portion Control Tips</h3>
+                <ul>
+                    <li>Use smaller plates to naturally reduce portion sizes</li>
+                    <li>Measure portions until you can estimate by sight</li>
+                    <li>A serving of protein is about the size of your palm</li>
+                    <li>A serving of carbohydrates is about the size of your fist</li>
+                    <li>A serving of fats is about the size of your thumb tip</li>
+                </ul>
+                
+                <h2 class="subtitle">Hydration</h2>
+                <p>Water is essential for nearly every bodily function - from regulating temperature to removing waste and transporting nutrients.</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Daily Needs</h4>
+                        <p>While individual needs vary, a general guideline is:</p>
+                        <p><strong>Women:</strong> About 2.7 liters (91 ounces) daily</p>
+                        <p><strong>Men:</strong> About 3.7 liters (125 ounces) daily</p>
+                        <p>This includes water from all beverages and food sources.</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Signs of Dehydration</h4>
+                        <ul>
+                            <li>Thirst (already indicates mild dehydration)</li>
+                            <li>Dark yellow urine</li>
+                            <li>Fatigue</li>
+                            <li>Headache</li>
+                            <li>Dry mouth and lips</li>
+                            <li>Dizziness</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Food Groups Tab -->
+            <div id="food-groups" class="tab-content">
+                <h2 class="subtitle">Understanding Food Groups</h2>
+                <p>Different food groups provide different nutrients. For optimal health, incorporate a variety from each group.</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Fruits & Vegetables</h4>
+                        <p>Rich in vitamins, minerals, antioxidants, and fiber with relatively few calories.</p>
+                        <p><strong>Recommendation:</strong> At least 5 servings daily</p>
+                        <p><strong>Key benefits:</strong> Reduced risk of heart disease, stroke, cancer, and digestive problems</p>
+                        <div class="food-grid">
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Berries">
+                                <p>Berries</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Leafy Greens">
+                                <p>Leafy Greens</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Citrus">
+                                <p>Citrus</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Whole Grains</h4>
+                        <p>Provide complex carbohydrates, fiber, B vitamins, and minerals.</p>
+                        <p><strong>Recommendation:</strong> Make at least half your grains whole grains</p>
+                        <p><strong>Key benefits:</strong> Digestive health, stable blood sugar, reduced heart disease risk</p>
+                        <div class="food-grid">
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Brown Rice">
+                                <p>Brown Rice</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Oats">
+                                <p>Oats</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Quinoa">
+                                <p>Quinoa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Protein Foods</h4>
+                        <p>Essential for building and repairing tissues, making enzymes, and supporting immune function.</p>
+                        <p><strong>Recommendation:</strong> 5-7 ounces daily for most adults</p>
+                        <p><strong>Key benefits:</strong> Muscle maintenance, satiety, healthy metabolism</p>
+                        <div class="food-grid">
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Beans">
+                                <p>Beans</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Fish">
+                                <p>Fish</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Chicken">
+                                <p>Chicken</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Dairy & Alternatives</h4>
+                        <p>Provide calcium, protein, phosphorus, vitamin D, and potassium.</p>
+                        <p><strong>Recommendation:</strong> 2-3 cups daily for most adults</p>
+                        <p><strong>Key benefits:</strong> Bone health, blood pressure regulation</p>
+                        <div class="food-grid">
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Yogurt">
+                                <p>Yogurt</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Almond Milk">
+                                <p>Almond Milk</p>
+                            </div>
+                            <div class="food-item">
+                                <img src="/api/placeholder/80/80" alt="Cheese">
+                                <p>Cheese</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="option-card">
+                    <h4 class="card-title">Healthy Fats</h4>
+                    <p>Essential for hormone production, brain health, and absorption of fat-soluble vitamins.</p>
+                    <p><strong>Recommendation:</strong> Include moderate amounts, emphasizing unsaturated fats</p>
+                    <p><strong>Key benefits:</strong> Heart health, brain function, hormone balance</p>
+                    <div class="food-grid">
+                        <div class="food-item">
+                            <img src="/api/placeholder/80/80" alt="Avocado">
+                            <p>Avocado</p>
+                        </div>
+                        <div class="food-item">
+                            <img src="/api/placeholder/80/80" alt="Olive Oil">
+                            <p>Olive Oil</p>
+                        </div>
+                        <div class="food-item">
+                            <img src="/api/placeholder/80/80" alt="Nuts">
+                            <p>Nuts</p>
+                        </div>
+                        <div class="food-item">
+                            <img src="/api/placeholder/80/80" alt="Fatty Fish">
+                            <p>Fatty Fish</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Seasonal Eating Guide</h3>
+                <p>Eating seasonally offers maximum nutrition, better flavor, environmental benefits, and typically lower costs.</p>
+                
+                <table>
+                    <tr>
+                        <th>Season</th>
+                        <th>Featured Produce</th>
+                        <th>Nutritional Highlights</th>
+                    </tr>
+                    <tr>
+                        <td>Spring</td>
+                        <td>Asparagus, peas, strawberries, artichokes</td>
+                        <td>Folate, vitamin K, vitamin C, antioxidants</td>
+                    </tr>
+                    <tr>
+                        <td>Summer</td>
+                        <td>Tomatoes, berries, peppers, zucchini</td>
+                        <td>Lycopene, antioxidants, vitamin C</td>
+                    </tr>
+                    <tr>
+                        <td>Fall</td>
+                        <td>Pumpkin, apples, Brussels sprouts, pears</td>
+                        <td>Vitamin A, fiber, vitamin C</td>
+                    </tr>
+                    <tr>
+                        <td>Winter</td>
+                        <td>Citrus, kale, sweet potatoes, winter squash</td>
+                        <td>Vitamin C, vitamin A, potassium</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Vitamins & Minerals Tab -->
+            <div id="vitamins-minerals" class="tab-content">
+                <h2 class="subtitle">Vitamins: Essential for Life</h2>
+                <p>Vitamins are organic compounds required in small amounts for normal physiological function. They're categorized by their solubility, which affects how they're absorbed, stored, and excreted.</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Fat-Soluble Vitamins</h4>
+                        <p>These vitamins dissolve in fat and can be stored in the body's fatty tissue.</p>
+                        <ul>
+                            <li>Vitamin A</li>
+                            <li>Vitamin D</li>
+                            <li>Vitamin E</li>
+                            <li>Vitamin K</li>
+                        </ul>
+                        <p><strong>Note:</strong> Because these can be stored, they can potentially reach toxic levels if consumed in excess.</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Water-Soluble Vitamins</h4>
+                        <p>These dissolve in water and generally can't be stored (excess is excreted).</p>
+                        <ul>
+                            <li>Vitamin C</li>
+                            <li>B vitamins (B1, B2, B3, B5, B6, B7, B9, B12)</li>
+                        </ul>
+                        <p><strong>Note:</strong> These typically need to be consumed more regularly as they're not stored in significant amounts.</p>
+                    </div>
+                </div>
+                
+                <div class="vitamin-table">
+                    <h3>Key Vitamin Profiles</h3>
+                    <table>
+                        <tr>
+                            <th>Vitamin</th>
+                            <th>Key Functions</th>
+                            <th>Best Food Sources</th>
+                            <th>Signs of Deficiency</th>
+                        </tr>
+                        <tr>
+                            <td>Vitamin A</td>
+                            <td>Vision, immune function, cell growth</td>
+                            <td>Sweet potatoes, carrots, spinach, liver</td>
+                            <td>Night blindness, compromised immunity</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin C</td>
+                            <td>Antioxidant, collagen formation, immune function</td>
+                            <td>Citrus fruits, bell peppers, strawberries, broccoli</td>
+                            <td>Scurvy, poor wound healing, gum disease</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin D</td>
+                            <td>Calcium absorption, bone health, immune function</td>
+                            <td>Sunlight exposure, fatty fish, fortified foods</td>
+                            <td>Rickets, osteomalacia, increased infection risk</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin E</td>
+                            <td>Antioxidant, cell protection</td>
+                            <td>Nuts, seeds, vegetable oils, spinach</td>
+                            <td>Nerve and muscle damage, weakened immune system</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin B12</td>
+                            <td>Red blood cell formation, neurological function</td>
+                            <td>Animal products, fortified foods</td>
+                            <td>Anemia, fatigue, neurological changes</td>
+                        </tr>
+                        <tr>
+                            <td>Folate (B9)</td>
+                            <td>DNA synthesis, cell division, prevents neural tube defects</td>
+                            <td>Leafy greens, legumes, fortified grains</td>
+                            <td>Anemia, elevated homocysteine, birth defects</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h2 class="subtitle">Essential Minerals</h2>
+                <p>Minerals are inorganic elements needed for various bodily functions from bone formation to fluid balance.</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Macrominerals</h4>
+                        <p>Needed in larger amounts (>100mg/day)</p>
+                        <ul>
+                            <li><strong>Calcium:</strong> Bone health, muscle function, nerve transmission</li>
+                            <li><strong>Phosphorus:</strong> Bone structure, energy production, pH regulation</li>
+                            <li><strong>Magnesium:</strong> Enzyme function, muscle and nerve function, bone development</li>
+                            <li><strong>Sodium:</strong> Fluid balance, nerve and muscle function</li>
+                            <li><strong>Potassium:</strong> Fluid balance, heart rhythm, muscle contractions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Trace Minerals</h4>
+                        <p>Needed in smaller amounts (<100mg/day)</p>
+                        <ul>
+                            <li><strong>Iron:</strong> Oxygen transport, energy production</li>
+                            <li><strong>Zinc:</strong> Immune function, wound healing, DNA synthesis</li>
+                            <li><strong>Copper:</strong> Iron metabolism, connective tissue formation</li>
+                            <li><strong>Selenium:</strong> Antioxidant function, thyroid metabolism</li>
+                            <li><strong>Iodine:</strong> Thyroid hormone production</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Cooking Impact on Nutrients</h3>
+                <p>How you prepare food can significantly affect its vitamin and mineral content:</p>
+                
+                <table>
+                    <tr>
+                        <th>Cooking Method</th>
+                        <th>Effect on Nutrients</th>
+                        <th>Best For Preserving</th>
+                    </tr>
+                    <tr>
+                        <td>Steaming</td>
+                        <td>Minimal nutrient loss</td>
+                        <td>Most water-soluble vitamins</td>
+                    </tr>
+                    <tr>
+                        <td>Boiling</td>
+                        <td>Significant loss of water-soluble vitamins</td>
+                        <td>Fat-soluble vitamins</td>
+                    </tr>
+                    <tr>
+                        <td>Roasting/Baking</td>
+                        <td>Some vitamin loss but enhances certain antioxidants</td>
+                        <td>Carotenoids in tomatoes, carrots</td>
+                    </tr>
+                    <tr>
+                        <td>Microwaving</td>
+                        <td>Minimal cooking time preserves many nutrients</td>
+                        <td>Overall good vitamin retention</td>
+                    </tr>
+                    <tr>
+                        <td>Raw</td>
+                        <td>No heat-related nutrient loss but some nutrients less bioavailable</td>
+                        <td>Vitamin C, some B vitamins</td>
+                    </tr>
+                </table>
+                
+                <div class="info-box">
+                    <h4>Nutrient Synergies</h4>
+                    <p>Some nutrients work better together:</p>
+                    <ul>
+                        <li><strong>Vitamin D + Calcium:</strong> Improves calcium absorption for bone health</li>
+                        <li><strong>Vitamin C + Iron:</strong> Enhances iron absorption from plant sources</li>
+                        <li><strong>Fat + Fat-soluble vitamins:</strong> Improves absorption of vitamins A, D, E, and K</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Special Diets Tab -->
+            <div id="special-diets" class="tab-content">
+                <h2 class="subtitle">Special Dietary Considerations</h2>
+                <p>Different lifestyles, ethical choices, health conditions, and personal preferences may lead to specialized dietary patterns.</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Plant-Based Diets</h4>
+                        <h5>Vegetarian</h5>
+                        <p>Excludes meat, poultry, and seafood. May include eggs and dairy.</p>
+                        <p><strong>Key nutrients to focus on:</strong> Protein, iron, zinc, vitamin B12 (if limiting animal products)</p>
+                        
+                        <h5>Vegan</h5>
+                        <p>Excludes all animal products including eggs, dairy, and honey.</p>
+                        <p><strong>Key nutrients to focus on:</strong> Vitamin B12 (supplement recommended), vitamin D, omega-3s, calcium, iron, zinc</p>
+                        
+                        <div class="info-box">
+                            <h5>Plant-Based Protein Equivalents</h5>
+                            <p>3 oz (85g) of meat protein = approximately:</p>
+                            <ul>
+                                <li>1 cup cooked beans or lentils</li>
+                                <li>½ cup tofu</li>
+                                <li>¼ cup tempeh</li>
+                                <li>3 tbsp nutritional yeast</li>
+                                <li>⅓ cup nuts or seeds</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Gluten-Free Diet</h4>
+                        <p>Eliminates the protein gluten found in wheat, barley, and rye. Essential for those with celiac disease and helpful for some with gluten sensitivity.</p>
+                        
+                        <h5>Foods to Avoid</h5>
+                        <ul>
+                            <li>Wheat (including durum, semolina, spelt)</li>
+                            <li>Barley</li>
+                            <li>Rye</li>
+                            <li>Triticale</li>
+                            <li>Many processed foods unless labeled gluten-free</li>
+                        </ul>
+                        
+                        <h5>Naturally Gluten-Free Alternatives</h5>
+                        <ul>
+                            <li>Rice</li>
+                            <li>Quinoa</li>
+                            <li>Millet</li>
+                            <li>Buckwheat</li>
+                            <li>Amaranth</li>
+                            <li>Certified gluten-free oats</li>
+                        </ul>
+                        
+                        <p><strong>Nutritional considerations:</strong> Focus on whole food alternatives rather than processed gluten-free products, which often contain more sugar, fat, and fewer nutrients.</p>
+                    </div>
+                </div>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Ketogenic Diet</h4>
+                        <p>A high-fat, very low-carbohydrate diet that shifts the body's metabolism to burning fat for fuel.</p>
+                        
+                        <h5>Typical Macronutrient Breakdown</h5>
+                        <ul>
+                            <li>Fat: 70-80% of calories</li>
+                            <li>Protein: 15-20% of calories</li>
+                            <li>Carbohydrates: 5-10% of calories (typically 20-50g daily)</li>
+                        </ul>
+                        
+                        <p><strong>Potential benefits:</strong> Weight loss, improved insulin sensitivity, reduced seizures for some with epilepsy</p>
+                        <p><strong>Considerations:</strong> Requires careful planning to ensure adequate micronutrient intake, may be difficult to sustain long-term</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Mediterranean Diet</h4>
+                        <p>Based on traditional eating patterns of countries bordering the Mediterranean Sea.</p>
+                        
+                        <h5>Key Components</h5>
+                        <ul>
+                            <li>Abundant plant foods (fruits, vegetables, whole grains, legumes)</li>
+                            <li>Olive oil as primary fat source</li>
+                            <li>Moderate consumption of fish and seafood</li>
+                            <li>Limited dairy, eggs, and poultry</li>
+                            <li>Minimal red meat</li>
+                            <li>Optional moderate wine consumption</li>
+                        </ul>
+                        
+                        <p><strong>Proven benefits:</strong> Reduced risk of heart disease, stroke, certain cancers, and cognitive decline</p>
+                    </div>
+                </div>
+                
+                <h2 class="subtitle">Nutrition Through Life Stages</h2>
+                <p>Nutritional needs vary throughout the lifespan, with certain nutrients becoming more critical at different ages.</p>
+                
+                <table>
+                    <tr>
+                        <th>Life Stage</th>
+                        <th>Key Nutritional Considerations</th>
+                        <th>Foods to Emphasize</th>
+                    </tr>
+                    <tr>
+                        <td>Infants (0-12 months)</td>
+                        <td>Rapid brain development, building immune system</td>
+                        <td>Breast milk or formula, gradually introducing iron-rich foods around 6 months</td>
+                    </tr>
+                    <tr>
+                        <td>Children (1-12 years)</td>
+                        <td>Growth, bone development, brain development</td>
+                        <td>Calcium-rich foods, iron, healthy fats, varied diet</td>
+                    </tr>
+                    <tr>
+                        <td>Adolescents (13-18 years)</td>
+                        <td>Growth spurts, bone density, puberty</td>
+                        <td>Protein, calcium, iron (especially for girls), zinc</td>
+                    </tr>
+                    <tr>
+                        <td>Adults (19-50 years)</td>
+                        <td>Maintenance, disease prevention</td>
+                        <td>Balanced diet with emphasis on whole foods</td>
+                    </tr>
+                    <tr>
+                        <td>Pregnancy</td>
+                        <td>Fetal development, maternal health</td>
+                        <td>Folate, iron, calcium, omega-3 fatty acids, protein</td>
+                    </tr>
+                    <tr>
+                        <td>Older Adults (50+ years)</td>
+                        <td>Maintaining muscle mass, bone health, cognitive function</td>
+                        <td>Protein, vitamin D, calcium, vitamin B12, fiber</td>
+                    </tr>
+                </table>
+                
+                <h3>Reading Food Labels</h3>
+                <p>Understanding food labels is essential for making informed dietary choices.</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Key Elements to Check</h4>
+                        <ol>
+                            <li><strong>Serving Size:</strong> All nutrition information is based on this amount</li>
+                            <li><strong>Calories:</strong> Energy content per serving</li>
+                            <li><strong>Macronutrients:</strong> Protein, carbohydrates (including fiber and sugars), and fat</li>
+                            <li><strong>Sodium:</strong> Important for blood pressure management</li>
+                            <li><strong>% Daily Value:</strong> Shows how much a nutrient contributes to a 2,000 calorie diet</li>
+                        </ol>
+                        <p><strong>Quick guide:</strong> 5% DV or less is low, 20% DV or more is high</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Ingredient List Tips</h4>
+                        <ul>
+                            <li>Ingredients are listed in descending order by weight</li>
+                            <li>Shorter lists typically indicate less processed foods</li>
+                            <li>Look out for added sugars, which may appear under many names (high-fructose corn syrup, sucrose, dextrose, etc.)</li>
+                            <li>Be aware of partially hydrogenated oils (trans fats) which should be avoided</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Myth Busting Tab -->
+            <div id="myth-busting" class="tab-content">
+                <h2 class="subtitle">Nutrition Myths Debunked</h2>
+                <p>There's a lot of misinformation about nutrition. Let's separate fact from fiction:</p>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Myth: "Carbs are bad for you"</h4>
+                        <div class="myth-box">
+                            <h5>Reality:</h5>
+                            <p>Carbohydrates are your body's preferred energy source and are essential for proper brain function. The quality of carbohydrates matters most. Choose whole grains, legumes, fruits, and vegetables over refined carbs like white bread, pastries, and sugary drinks.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Myth: "Eating fat makes you fat"</h4>
+                        <div class="myth-box">
+                            <h5>Reality:</h5>
+                            <p>Dietary fat is essential for hormone production, brain health, and absorbing fat-soluble vitamins. Healthy fats from sources like avocados, nuts, seeds, and olive oil are an important part of a balanced diet. Weight gain occurs when overall calorie intake exceeds energy expenditure, regardless of macronutrient source.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Myth: "Detoxes and cleanses are necessary"</h4>
+                        <div class="myth-box">
+                            <h5>Reality:</h5>
+                            <p>Your body has built-in detoxification systems (primarily the liver and kidneys) that work continuously. The best way to support these organs is through adequate hydration, a balanced diet rich in fruits and vegetables, regular exercise, and avoiding excessive alcohol and processed foods.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Myth: "Eating frequent small meals boosts metabolism"</h4>
+                        <div class="myth-box">
+                            <h5>Reality:</h5>
+                            <p>Research shows that meal frequency has minimal impact on metabolic rate. Total calorie intake matters more than how often you eat. Some people benefit from eating 3 moderate meals daily, while others prefer smaller, more frequent meals. The best approach is what works for your hunger levels and lifestyle.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="explore-options">
+                    <div class="option-card">
+                        <h4 class="card-title">Myth: "Eggs raise cholesterol and cause heart disease"</h4>
+                        <div class="myth-box">
+                            <h5>Reality:</h5>
+                            <p>Research has largely debunked this myth. While eggs do contain cholesterol, dietary cholesterol has minimal impact on blood cholesterol levels for most people. Eggs are a nutritious food rich in protein, vitamins, minerals, and antioxidants. Most healthy individuals can include eggs as part of a balanced diet.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <h4 class="card-title">Myth: "All calories are created equal"</h4>
+                        <div class="myth-box">
+                            <h5>Reality:</h5>
+                            <p>While calorie balance is important for weight management, the quality of those calories significantly impacts health, hunger, and metabolism. 100 calories of broccoli affect your body differently than 100 calories of cookies due to differences in nutrient density, fiber content, protein, and how the body processes different foods.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="subtitle">Nutrition Facts vs. Fiction</h2>
+                <table>
+                    <tr>
+                        <th>Claim</th>
+                        <th>Status</th>
+                        <th>Evidence</th>
+                    </tr>
+                    <tr>
+                        <td>"Organic food is significantly more nutritious"</td>
+                        <td>Partly True</td>
+                        <td>Some studies show modest increases in certain nutrients, but the difference is generally small. The main benefit is reduced pesticide exposure.</td>
+                    </tr>
+                    <tr>
+                        <td>"GMOs are unsafe to eat"</td>
+                        <td>False</td>
+                        <td>Scientific consensus indicates that approved GMO foods are as safe as their conventional counterparts.</td>
+                    </tr>
+                    <tr>
+                        <td>"Superfoods have magical healing properties"</td>
+                        <td>False</td>
+                        <td>While foods labeled as "superfoods" are often nutrient-dense, no single food can provide all necessary nutrients or cure diseases.</td>
+                    </tr>
+                    <tr>
+                        <td>"Gluten is harmful for everyone"</td>
+                        <td>False</td>
+                        <td>Gluten is problematic for people with celiac disease or non-celiac gluten sensitivity, but there's no evidence it's harmful for everyone else.</td>
+                    </tr>
+                    <tr>
+                        <td>"Drinking water flushes out toxins"</td>
+                        <td>Partly True</td>
+                        <td>Adequate hydration supports kidney function, which filters waste. However, water doesn't "flush out toxins" in the way often claimed in detox programs.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openTab(evt, tabName) {
+            // Get all tab content and hide them
+            var tabContent = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            
+            // Get all tab buttons and remove active class
+            var tabButtons = document.getElementsByClassName("tab-button");
+            for (var i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+            }
+            
+            // Show the current tab and add active class to the button
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>

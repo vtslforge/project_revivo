@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Analysis | Revivo Health</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        .content {
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .section-title {
+            color: #FF9800;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .upload-container {
+            background: rgba(255, 152, 0, 0.1);
+            border: 2px dashed rgba(255, 152, 0, 0.5);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            transition: all 0.3s ease;
+        }
+        .upload-container:hover {
+            background: rgba(255, 152, 0, 0.2);
+        }
+        .file-input {
+            display: none;
+        }
+        .upload-btn {
+            background: #FF9800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+        .upload-btn:hover {
+            background: #F57C00;
+            transform: translateY(-2px);
+        }
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        .results-container {
+            display: none;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 152, 0, 0.1);
+            border-radius: 12px;
+        }
+        .food-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .food-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .food-name {
+            color: #FF9800;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .confidence {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(255, 152, 0, 0.2);
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .nutrition {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .nutrition-item {
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .nutrition-label {
+            color: #777;
+            display: block;
+        }
+        .nutrition-value {
+            font-weight: bold;
+            color: #333;
+        }
+        .total-nutrition {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 152, 0, 0.2);
+            border-radius: 10px;
+        }
+        .total-nutrition h3 {
+            color: #FF9800;
+            margin-bottom: 15px;
+        }
+        .total-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .total-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .total-label {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 5px;
+        }
+        .total-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF9800;
+        }
+        .loading {
+            display: none;
+            margin: 20px auto;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 152, 0, 0.2);
+            border-radius: 50%;
+            border-top-color: #FF9800;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .back-btn {
+            background: transparent;
+            border: 1px solid #FF9800;
+            color: #FF9800;
+            padding: 8px 16px;
+            border-radius: 20px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: rgba(255, 152, 0, 0.1);
+        }
+        .error-message {
+            color: #d32f2f;
+            background: rgba(211, 47, 47, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <a class="back-btn" href="/">← Dashboard</a>
+    
+    <div class="content">
+        <h1 class="section-title">Food Analysis</h1>
+        <p>Upload a food image to analyze calories and nutrients</p>
+        
+        <div class="upload-container" id="drop-area">
+            <p>Drag & drop your food image here or click to browse</p>
+            <input type="file" id="file-input" class="file-input" accept="image/*">
+            <button class="upload-btn" id="browse-btn">Browse Files</button>
+            <img id="preview-image" class="preview-image" alt="Preview">
+            <div class="error-message" id="error-message"></div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Analyzing your food...</p>
+        </div>
+        
+        <div class="results-container" id="results-container">
+            <h2>Analysis Results</h2>
+            
+            <div class="food-results" id="food-results">
+                <!-- Results will be populated here -->
+            </div>
+            
+            <div class="total-nutrition" id="total-nutrition">
+                <h3>Total Nutrition</h3>
+                <div class="total-grid">
+                    <div class="total-item">
+                        <div class="total-label">Calories</div>
+                        <div class="total-value" id="total-calories">0</div>
+                    </div>
+                    <div class="total-item">
+                        <div class="total-label">Protein</div>
+                        <div class="total-value" id="total-protein">0g</div>
+                    </div>
+                    <div class="total-item">
+                        <div class="total-label">Carbs</div>
+                        <div class="total-value" id="total-carbs">0g</div>
+                    </div>
+                    <div class="total-item">
+                        <div class="total-label">Fat</div>
+                        <div class="total-value" id="total-fat">0g</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database of food items
+        const FOOD_DATABASE = {
+            'Bisi Bele Bath':   {calories: 250, protein: 6, carbs: 40, fat: 7},
+            'Chitranna':        {calories: 220, protein: 4, carbs: 38, fat: 6},
+            'Masala Dosa':      {calories: 180, protein: 4, carbs: 30, fat: 5},
+            'Mysore Pak':       {calories: 400, protein: 3, carbs: 45, fat: 22},
+            'Set Dosa':         {calories: 150, protein: 3, carbs: 28, fat: 3},
+            'Udupi Sambar':     {calories: 90,  protein: 3, carbs: 15, fat: 2},
+            'biryani':          {calories: 320, protein: 8, carbs: 45, fat: 10},
+            'chicken curry':    {calories: 210, protein: 18, carbs: 6, fat: 12},
+            'idli':             {calories: 40,  protein: 1.5, carbs: 8, fat: 0.2},
+            'kesari bath':      {calories: 180, protein: 2, carbs: 35, fat: 5},
+            'ragi mudde':       {calories: 70,  protein: 2, carbs: 15, fat: 0.5}
+        };
+
+        // DOM elements
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const previewImage = document.getElementById('preview-image');
+        const loadingElement = document.getElementById('loading');
+        const resultsContainer = document.getElementById('results-container');
+        const foodResults = document.getElementById('food-results');
+        const totalCalories = document.getElementById('total-calories');
+        const totalProtein = document.getElementById('total-protein');
+        const totalCarbs = document.getElementById('total-carbs');
+        const totalFat = document.getElementById('total-fat');
+        const errorMessage = document.getElementById('error-message');
+
+        // Event listeners
+        browseBtn.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.style.borderColor = '#FF9800';
+            dropArea.style.background = 'rgba(255, 152, 0, 0.2)';
+        }
+        
+        function unhighlight() {
+            dropArea.style.borderColor = 'rgba(255, 152, 0, 0.5)';
+            dropArea.style.background = 'rgba(255, 152, 0, 0.1)';
+        }
+        
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                handleFiles(files);
+            }
+        }
+        
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+        
+        function handleFiles(files) {
+            if (files.length === 0) return;
+            
+            const file = files[0];
+            
+            // Check if file is an image
+            if (!file.type.match('image.*')) {
+                showError('Please select an image file (JPEG, PNG, etc.)');
+                return;
+            }
+            
+            // Preview the image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload and analyze the image
+            uploadAndAnalyze(file);
+        }
+        
+        function uploadAndAnalyze(file) {
+            // Show loading
+            loadingElement.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            
+            // Create FormData
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            // Make an actual fetch request to the backend
+            fetch('/api/analyze', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(error => {
+                showError('Error analyzing image: ' + error.message);
+                loadingElement.style.display = 'none';
+            });
+        }
+        
+        function simulateAnalysisResponse() {
+            // Get random food items for demo
+            const foodClasses = Object.keys(FOOD_DATABASE);
+            const results = [];
+            
+            // Get 1-3 random food items
+            const itemCount = Math.floor(Math.random() * 3) + 1;
+            const selectedFoods = [];
+            
+            for (let i = 0; i < itemCount; i++) {
+                let randomFood;
+                do {
+                    randomFood = foodClasses[Math.floor(Math.random() * foodClasses.length)];
+                } while (selectedFoods.includes(randomFood));
+                
+                selectedFoods.push(randomFood);
+                
+                // Generate random confidence level
+                const confidence = (Math.random() * 0.5 + 0.5).toFixed(2);
+                
+                // Get food info
+                const foodInfo = FOOD_DATABASE[randomFood];
+                
+                results.push({
+                    food: randomFood,
+                    confidence: parseFloat(confidence),
+                    calories: foodInfo.calories,
+                    protein: foodInfo.protein,
+                    carbs: foodInfo.carbs,
+                    fat: foodInfo.fat
+                });
+            }
+            
+            // Sort by confidence
+            results.sort((a, b) => b.confidence - a.confidence);
+            
+            // Calculate totals
+            const totals = {
+                calories: results.reduce((sum, item) => sum + item.calories, 0),
+                protein: results.reduce((sum, item) => sum + item.protein, 0),
+                carbs: results.reduce((sum, item) => sum + item.carbs, 0),
+                fat: results.reduce((sum, item) => sum + item.fat, 0)
+            };
+            
+            // Display results
+            displayResults({
+                results: results,
+                totals: totals
+            });
+        }
+        
+        function displayResults(data) {
+            // Hide loading
+            loadingElement.style.display = 'none';
+            
+            // Clear previous results
+            foodResults.innerHTML = '';
+            
+            // Add each food item
+            data.results.forEach(item => {
+                const foodCard = document.createElement('div');
+                foodCard.className = 'food-card';
+                
+                // Calculate percentage for confidence
+                const confidencePercent = Math.round(item.confidence * 100);
+                
+                foodCard.innerHTML = `
+                    <h3 class="food-name">${item.food}</h3>
+                    <div class="confidence">${confidencePercent}% Confidence</div>
+                    <div class="nutrition">
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">Calories</span>
+                            <span class="nutrition-value">${item.calories}</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">Protein</span>
+                            <span class="nutrition-value">${item.protein}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">Carbs</span>
+                            <span class="nutrition-value">${item.carbs}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">Fat</span>
+                            <span class="nutrition-value">${item.fat}g</span>
+                        </div>
+                    </div>
+                `;
+                
+                foodResults.appendChild(foodCard);
+            });
+            
+            // Update totals
+            totalCalories.textContent = Math.round(data.totals.calories);
+            totalProtein.textContent = data.totals.protein.toFixed(1) + 'g';
+            totalCarbs.textContent = data.totals.carbs.toFixed(1) + 'g';
+            totalFat.textContent = data.totals.fat.toFixed(1) + 'g';
+            
+            // Show results
+            resultsContainer.style.display = 'block';
+        }
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            loadingElement.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

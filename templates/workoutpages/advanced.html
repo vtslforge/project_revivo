@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Workouts Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: #1c1c1e;
+      --card-hover: #252529;
+      --text: #f0f0f0;
+      --accent: #facc15;
+      --muted: #aaa;
+      --highlight: #4ade80;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(to right, rgba(28, 28, 30, 0.9), rgba(28, 28, 30, 0.95)), url('/static/assets/advanced_background.jpg') no-repeat center center;
+      background-size: cover;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      background: linear-gradient(90deg, var(--accent), #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: var(--text);
+      font-weight: 300;
+    }
+    .exercise-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+    .exercise-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .exercise-card:hover {
+      transform: scale(1.05);
+      background: var(--card-hover);
+    }
+    .exercise-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--highlight);
+    }
+    .exercise-description {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+    .section {
+      padding: 2rem;
+      margin: 2rem 0;
+      background: var(--card-bg);
+      border-radius: 10px;
+    }
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    .section p {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Advanced Workouts</h1>
+      <p class="tagline">Push your limits with these advanced-level exercises designed for experienced individuals.</p>
+    </div>
+  </header>
+  <div class="content">
+    <section class="section">
+      <h2>Introduction to Advanced Workouts</h2>
+      <p>Advanced workouts are tailored for those who have mastered the basics and are ready to challenge their strength, endurance, and agility. These routines incorporate complex movements and higher intensity to maximize results.</p>
+    </section>
+    <section class="section">
+      <h2>Benefits of Advanced Training</h2>
+      <ul>
+        <li>Enhances muscle hypertrophy and strength</li>
+        <li>Improves neuromuscular coordination</li>
+        <li>Boosts metabolic rate and calorie burn</li>
+        <li>Increases athletic performance and resilience</li>
+      </ul>
+    </section>
+    <div class="exercise-list">
+      <div class="exercise-card">
+        <h2 class="exercise-title">Barbell Deadlifts</h2>
+        <p class="exercise-description">4 sets of 6 reps. Benefits: Builds full-body power and strength.</p>
+      </div>
+      <div class="exercise-card">
+        <h2 class="exercise-title">Pistol Squats</h2>
+        <p class="exercise-description">3 sets of 10 reps each leg. Benefits: Improves balance and leg strength.</p>
+      </div>
+      <div class="exercise-card">
+        <h2 class="exercise-title">Clean & Press</h2>
+        <p class="exercise-description">3 sets of 5 reps. Benefits: Develops explosive power and coordination.</p>
+      </div>
+      <div class="exercise-card">
+        <h2 class="exercise-title">Weighted Pull-Ups</h2>
+        <p class="exercise-description">4 sets to failure. Benefits: Strengthens upper body and grip.</p>
+      </div>
+      <div class="exercise-card">
+        <h2 class="exercise-title">Handstand Push-Ups</h2>
+        <p class="exercise-description">3 sets of 6 reps. Benefits: Builds shoulder and core strength.</p>
+      </div>
+    </div>
+    <section class="section">
+      <h2>Tips for Advanced Training</h2>
+      <p>Focus on proper form and technique to prevent injuries. Incorporate progressive overload to continue making gains. Ensure adequate recovery between sessions.</p>
+    </section>
+    <section class="section">
+      <h2>Weekly Challenge</h2>
+      <p>Complete 5 advanced sessions this week, mixing upper body, lower body, and full-body movements. Track your progress and aim to improve each session.</p>
+    </section>
+  </div>
+</body>
+</html>

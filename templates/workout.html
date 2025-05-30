@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Programs | Revivo Health</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: rgba(76, 175, 80, 0.1);
+            --primary-medium: rgba(76, 175, 80, 0.3);
+            --primary-dark: #2E7D32;
+            --secondary: #03A9F4;
+            --beginner: rgba(76, 175, 80, 0.3);
+            --intermediate: rgba(255, 193, 7, 0.3);
+            --advanced: rgba(244, 67, 54, 0.3);
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #fff;
+            --gray-light: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .back-btn-container {
+            background-color: var(--white);
+            padding: 15px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .content {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--white);
+            border: 2px solid var(--primary-light);
+            border-radius: 30px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .workout-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .workout-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .workout-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .workout-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workout-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        .workout-details {
+            padding: 20px;
+        }
+
+        .workout-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .workout-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .workout-description {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .workout-stats {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--gray-light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .stat i {
+            color: var(--primary);
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .beginner { 
+            background: var(--beginner); 
+            color: #1B5E20;
+        }
+        
+        .intermediate { 
+            background: var(--intermediate); 
+            color: #F57F17;
+        }
+        
+        .advanced { 
+            background: var(--advanced); 
+            color: #B71C1C;
+        }
+
+        .view-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .view-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .workout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .workout-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .workout-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--primary-light);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .modal-exercise {
+            margin-bottom: 30px;
+        }
+
+        .exercise-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .exercise-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .exercise-card {
+            background: var(--primary-light);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            background: var(--primary-medium);
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .exercise-info {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .start-workout-btn {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-workout-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .workout-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Progress bar for workout timer */
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--primary-light);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: var(--primary);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Timer display */
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-dark);
+        }
+
+        /* Exercise instruction animation */
+        .instruction-animation {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            height: 40px;
+        }
+
+        /* Save as favorite button */
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .favorite-btn i {
+            color: #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn.active i {
+            color: #FF5252;
+        }
+
+        .favorite-btn:hover {
+            background: rgba(255,255,255,1);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="back-btn-container">
+        <a href="/" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Dashboard</span>
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="section-header">
+            <h1 class="section-title">Workout Programs</h1>
+            <p class="section-subtitle">Choose from our wide range of professionally designed workout programs to achieve your fitness goals</p>
+        </div>
+
+        <div class="filters">
+            <a href="/workoutpages/strength" class="filter-btn active" data-filter="strength">Strength</a>
+            <a href="/workoutpages/cardio" class="filter-btn" data-filter="cardio">Cardio</a>
+            <a href="/workoutpages/hiit" class="filter-btn" data-filter="hiit">HIIT</a>
+            <a href="/workoutpages/yoga" class="filter-btn" data-filter="yoga">Yoga</a>
+            <a href="/workoutpages/beginner" class="filter-btn" data-filter="beginner">Beginner</a>
+            <a href="/workoutpages/intermediate" class="filter-btn" data-filter="intermediate">Intermediate</a>
+            <a href="/workoutpages/advanced" class="filter-btn" data-filter="advanced">Advanced</a>
+        </div>
+
+        <div class="workout-container" id="workout-list">
+            <!-- Workout cards will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- Workout Detail Modal -->
+    <div class="workout-modal" id="workout-modal">
+        <div class="modal-content">
+            <button class="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Workout Title</h2>
+                <div class="modal-meta">
+                    <span class="stat">
+                        <i class="fas fa-clock"></i>
+                        <span id="modal-duration">30 min</span>
+                    </span>
+                    <span class="stat">
+                        <i class="fas fa-fire"></i>
+                        <span id="modal-calories">300 kcal</span>
+                    </span>
+                    <span class="stat">
+                        <i class="fas fa-dumbbell"></i>
+                        <span id="modal-type">Strength</span>
+                    </span>
+                    <span class="difficulty" id="modal-difficulty">Beginner</span>
+                </div>
+                <p class="workout-description" id="modal-description">
+                    Workout description will appear here.
+                </p>
+            </div>
+            
+            <div class="modal-exercise">
+                <h3 class="exercise-title">
+                    <i class="fas fa-list-ol"></i>
+                    Exercises
+                </h3>
+                <div class="exercise-details" id="exercise-list">
+                    <!-- Exercise cards will be generated dynamically -->
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="start-workout-btn pulse">Start Workout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Workout data
+        const workouts = [
+            {
+                id: 1,
+                title: "Full Body Burn",
+                type: "strength",
+                difficulty: "beginner",
+                duration: "30 min",
+                calories: "250-300 kcal",
+                image: "/api/placeholder/600/400",
+                description: "A comprehensive full-body workout designed to build strength and endurance. Perfect for beginners looking to establish a solid fitness foundation.",
+                exercises: [
+                    { name: "Push-ups", sets: "3", reps: "10-12", rest: "30 sec" },
+                    { name: "Squats", sets: "3", reps: "15", rest: "30 sec" },
+                    { name: "Plank", sets: "3", duration: "30 sec", rest: "30 sec" },
+                    { name: "Lunges", sets: "3", reps: "12 each leg", rest: "30 sec" },
+                    { name: "Dumbbell Rows", sets: "3", reps: "12 each arm", rest: "30 sec" },
+                    { name: "Glute Bridges", sets: "3", reps: "15", rest: "30 sec" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Strength Builder",
+                type: "strength",
+                difficulty: "intermediate",
+                duration: "45 min",
+                calories: "350-400 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Focus on building lean muscle mass with this strength-focused workout program. Combines compound movements with isolation exercises for maximum gains.",
+                exercises: [
+                    { name: "Barbell Squats", sets: "4", reps: "8-10", rest: "60 sec" },
+                    { name: "Bench Press", sets: "4", reps: "8-10", rest: "60 sec" },
+                    { name: "Deadlifts", sets: "4", reps: "8", rest: "90 sec" },
+                    { name: "Military Press", sets: "3", reps: "10", rest: "60 sec" },
+                    { name: "Pull-ups", sets: "3", reps: "8-10", rest: "60 sec" },
+                    { name: "Dips", sets: "3", reps: "10-12", rest: "60 sec" },
+                    { name: "Barbell Rows", sets: "3", reps: "10", rest: "60 sec" },
+                    { name: "Leg Press", sets: "3", reps: "12", rest: "60 sec" }
+                ]
+            },
+            {
+                id: 3,
+                title: "HIIT Extreme",
+                type: "hiit",
+                difficulty: "advanced",
+                duration: "20 min",
+                calories: "300-350 kcal",
+                image: "/api/placeholder/600/400",
+                description: "High-intensity interval training designed to maximize calorie burn and improve cardiovascular fitness. Short bursts of intense effort followed by brief recovery periods.",
+                exercises: [
+                    { name: "Burpees", duration: "40 sec", rest: "20 sec" },
+                    { name: "Mountain Climbers", duration: "40 sec", rest: "20 sec" },
+                    { name: "Jump Squats", duration: "40 sec", rest: "20 sec" },
+                    { name: "High Knees", duration: "40 sec", rest: "20 sec" },
+                    { name: "Jumping Lunges", duration: "40 sec", rest: "20 sec" },
+                    { name: "Push-up to Plank Jack", duration: "40 sec", rest: "20 sec" },
+                    { name: "Skater Jumps", duration: "40 sec", rest: "20 sec" },
+                    { name: "Tuck Jumps", duration: "40 sec", rest: "20 sec" }
+                ]
+            },
+            {
+                id: 4,
+                title: "Core Crusher",
+                type: "strength",
+                difficulty: "intermediate",
+                duration: "25 min",
+                calories: "200-250 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Target your core muscles with this challenging workout routine. Build strength in your abs, obliques, and lower back for better stability and posture.",
+                exercises: [
+                    { name: "Sit-ups", sets: "3", reps: "15", rest: "30 sec" },
+                    { name: "Russian Twists", sets: "3", reps: "20 total", rest: "30 sec" },
+                    { name: "Plank", sets: "3", duration: "45 sec", rest: "30 sec" },
+                    { name: "Bicycle Crunches", sets: "3", reps: "20 total", rest: "30 sec" },
+                    { name: "Mountain Climbers", sets: "3", duration: "45 sec", rest: "30 sec" },
+                    { name: "Leg Raises", sets: "3", reps: "12", rest: "30 sec" },
+                    { name: "Side Plank", sets: "3", duration: "30 sec each side", rest: "30 sec" }
+                ]
+            },
+            {
+                id: 5,
+                title: "Cardio Blast",
+                type: "cardio",
+                difficulty: "beginner",
+                duration: "35 min",
+                calories: "300-350 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Get your heart pumping with this cardio-focused workout. Improve endurance and burn calories with a mix of aerobic exercises.",
+                exercises: [
+                    { name: "Jumping Jacks", duration: "60 sec", rest: "30 sec" },
+                    { name: "High Knees", duration: "45 sec", rest: "30 sec" },
+                    { name: "Butt Kicks", duration: "45 sec", rest: "30 sec" },
+                    { name: "Lateral Shuffles", duration: "45 sec", rest: "30 sec" },
+                    { name: "Jump Rope", duration: "60 sec", rest: "30 sec" },
+                    { name: "Jumping Jacks", duration: "60 sec", rest: "30 sec" },
+                    { name: "Mountain Climbers", duration: "45 sec", rest: "30 sec" },
+                    { name: "Skater Jumps", duration: "45 sec", rest: "30 sec" },
+                    { name: "Star Jumps", duration: "45 sec", rest: "30 sec" }
+                ]
+            },
+            {
+                id: 6,
+                title: "Yoga Flow",
+                type: "yoga",
+                difficulty: "beginner",
+                duration: "40 min",
+                calories: "150-200 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Improve flexibility, balance, and mental clarity with this calming yoga flow. Perfect for stress relief and recovery days.",
+                exercises: [
+                    { name: "Child's Pose", duration: "60 sec" },
+                    { name: "Downward Dog", duration: "45 sec" },
+                    { name: "Warrior I", duration: "45 sec each side" },
+                    { name: "Warrior II", duration: "45 sec each side" },
+                    { name: "Triangle Pose", duration: "45 sec each side" },
+                    { name: "Tree Pose", duration: "30 sec each side" },
+                    { name: "Bridge Pose", duration: "45 sec" },
+                    { name: "Seated Forward Bend", duration: "60 sec" },
+                    { name: "Corpse Pose", duration: "180 sec" }
+                ]
+            },
+            {
+                id: 7,
+                title: "Upper Body Blitz",
+                type: "strength",
+                difficulty: "intermediate",
+                duration: "35 min",
+                calories: "250-300 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Focus on your upper body with this targeted strength workout. Build muscle in your chest, back, shoulders, and arms.",
+                exercises: [
+                    { name: "Push-ups", sets: "4", reps: "12", rest: "45 sec" },
+                    { name: "Pull-ups/Assisted Pull-ups", sets: "4", reps: "8-10", rest: "60 sec" },
+                    { name: "Dumbbell Shoulder Press", sets: "3", reps: "12", rest: "45 sec" },
+                    { name: "Bent-Over Rows", sets: "3", reps: "12", rest: "45 sec" },
+                    { name: "Tricep Dips", sets: "3", reps: "15", rest: "45 sec" },
+                    { name: "Bicep Curls", sets: "3", reps: "12", rest: "45 sec" },
+                    { name: "Front & Lateral Raises", sets: "3", reps: "12 each", rest: "45 sec" }
+                ]
+            },
+            {
+                id: 8,
+                title: "Lower Body Focus",
+                type: "strength",
+                difficulty: "intermediate",
+                duration: "40 min",
+                calories: "300-350 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Build strength and shape in your legs and glutes with this lower body workout. Great for improving functional strength and athletic performance.",
+                exercises: [
+                    { name: "Squats", sets: "4", reps: "15", rest: "60 sec" },
+                    { name: "Romanian Deadlifts", sets: "4", reps: "12", rest: "60 sec" },
+                    { name: "Walking Lunges", sets: "3", reps: "20 total", rest: "60 sec" },
+                    { name: "Glute Bridges", sets: "3", reps: "15", rest: "45 sec" },
+                    { name: "Calf Raises", sets: "3", reps: "20", rest: "45 sec" },
+                    { name: "Step-Ups", sets: "3", reps: "12 each leg", rest: "45 sec" },
+                    { name: "Sumo Squats", sets: "3", reps: "15", rest: "45 sec" }
+                ]
+            },
+            {
+                id: 9,
+                title: "Power HIIT",
+                type: "hiit",
+                difficulty: "advanced",
+                duration: "25 min",
+                calories: "350-400 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Combine strength and cardio with this power-focused HIIT workout. Build explosive power and burn maximum calories in minimal time.",
+                exercises: [
+                    { name: "Burpee to Push-up", duration: "40 sec", rest: "20 sec" },
+                    { name: "Box Jumps", duration: "40 sec", rest: "20 sec" },
+                    { name: "Kettlebell Swings", duration: "40 sec", rest: "20 sec" },
+                    { name: "Medicine Ball Slams", duration: "40 sec", rest: "20 sec" },
+                    { name: "Jump Lunges", duration: "40 sec", rest: "20 sec" },
+                    { name: "Plyo Push-ups", duration: "40 sec", rest: "20 sec" },
+                    { name: "Battle Ropes", duration: "40 sec", rest: "20 sec" },
+                    { name: "Sprint Intervals", duration: "40 sec", rest: "20 sec" }
+                ]
+            },
+            {
+                id: 10,
+                title: "Morning Energizer",
+                type: "cardio",
+                difficulty: "beginner",
+                duration: "20 min",
+                calories: "150-200 kcal",
+                image: "/api/placeholder/600/400",
+                description: "Start your day right with this quick and energizing workout. Get your blood flowing and boost your energy levels for the day ahead.",
+                exercises: [
+                    { name: "Jumping Jacks", duration: "45 sec", rest: "15 sec" },
+                    { name: "Bodyweight Squats", duration: "45 sec", rest: "15 sec" },
+                    { name: "Arm Circles", duration: "30 sec", rest: "15 sec" },
+                    { name: "High Knees", duration: "45 sec", rest: "15 sec" },
+                    { name: "Push-ups", duration: "45 sec", rest: "15 sec" },
+                    { name: "Mountain Climbers", duration: "45 sec", rest: "15 sec" }
+                ]
+            }
+        ];
+    </script>
+</body>
+</html>

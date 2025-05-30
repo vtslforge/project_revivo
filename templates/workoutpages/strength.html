@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Strength Workouts Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: #1c1c1e;
+      --card-hover: #252529;
+      --text: #f0f0f0;
+      --accent: #facc15;
+      --muted: #aaa;
+      --highlight: #4ade80;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(to right, rgba(28, 28, 30, 0.9), rgba(28, 28, 30, 0.95)), url('/api/placeholder/1200/300') no-repeat center center;
+      background-size: cover;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      background: linear-gradient(90deg, var(--accent), #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: var(--text);
+      font-weight: 300;
+    }
+    .intro {
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .exercise-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .exercise-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      background: var(--card-hover);
+    }
+    .exercise-card:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--accent);
+    }
+    .exercise-header {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .exercise-icon {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-right: 1rem;
+      width: 32px;
+      text-align: center;
+    }
+    .exercise-title-container {
+      flex: 1;
+    }
+    .exercise-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .exercise-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .exercise-description {
+      margin: 1rem 0;
+      font-size: 1rem;
+      color: var(--text);
+      flex-grow: 1;
+    }
+    .exercise-details {
+      margin-top: auto;
+    }
+    .exercise-benefits {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .benefit-item {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: flex-start;
+    }
+    .benefit-icon {
+      color: var(--highlight);
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .exercise-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+    .stat {
+      text-align: center;
+      flex: 1;
+    }
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    footer {
+      background: var(--card-bg);
+      padding: 2rem;
+      margin-top: 4rem;
+      text-align: center;
+    }
+    .footer-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .copyright {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .exercise-list {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Strength Workouts Guide</h1>
+      <p class="tagline">BUILD MUSCLE, BURN CALORIES, GET STRONGER</p>
+      <p class="intro">A complete collection of essential strength exercises with information on proper form, muscle targeting, and calories burned. Start your strength journey today!</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="exercise-list">
+      <!-- Push-Ups -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Push-Ups</div>
+            <div class="exercise-subtitle">
+              3 sets of 12 reps | 60 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          The classic bodyweight exercise that builds upper body strength and stability. Start with knee push-ups if needed, then progress to standard form.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Strengthens chest, shoulders, and triceps</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Engages core muscles for stability</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves posture and upper body endurance</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">180</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Upper</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Squats -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-walking"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Squats</div>
+            <div class="exercise-subtitle">
+              3 sets of 15 reps | 90 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          The foundational lower body movement that targets multiple muscle groups simultaneously. Keep weight in heels and knees behind toes.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Builds lower body strength and power</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Develops glutes, quads, and hamstrings</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves mobility and joint health</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">220</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Lower</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deadlifts -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Deadlifts</div>
+            <div class="exercise-subtitle">
+              3 sets of 10 reps | 120 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          A fundamental strength exercise that builds total-body power. Keep your back straight and hinge at the hips while maintaining a neutral spine.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Strengthens lower back, glutes, and hamstrings</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves grip strength and posture</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Boosts overall functional strength</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">260</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Full Body</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Planks -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-balance-scale"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Planks</div>
+            <div class="exercise-subtitle">
+              3 sets of 30 seconds | 45 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          A static core exercise that builds total-body stability. Keep body in a straight line from head to heels, engaging core muscles throughout.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Strengthens core, back, and shoulders</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves posture and spinal alignment</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Enhances body control and stability</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">100</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Core</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lunges -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-running"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Lunges</div>
+            <div class="exercise-subtitle">
+              3 sets of 12 reps per leg | 60 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          A unilateral lower body exercise that improves balance and symmetry. Step forward with one leg, lowering your body until both knees form 90-degree angles.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Targets quads, glutes, and hamstrings</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves balance and coordination</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Corrects strength imbalances between legs</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">200</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Lower</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bench Press -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Bench Press</div>
+            <div class="exercise-subtitle">
+              3 sets of 10 reps | 90 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          The classic chest exercise for building upper body pushing strength. Lower the bar to mid-chest and press back up with control.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Builds chest, shoulder, and tricep strength</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Increases upper body pushing power</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Develops balanced chest muscular development</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">190</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Upper</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overhead Press -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Overhead Press</div>
+            <div class="exercise-subtitle">
+              3 sets of 8 reps | 90 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          A powerful exercise for shoulder strength and stability. Press the weight directly overhead, keeping core engaged and avoiding arching your back.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Builds shoulder strength and stability</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Engages core and improves posture</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Develops overhead mobility and control</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">170</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Upper</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bicep Curls -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Bicep Curls</div>
+            <div class="exercise-subtitle">
+              3 sets of 15 reps | 60 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          An isolation exercise targeting the biceps. Keep elbows fixed at your sides and curl with controlled movement, avoiding swinging motions.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Builds and defines bicep muscles</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves arm strength for pulling movements</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Enhances grip strength and forearm development</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">130</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Upper</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tricep Dips -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-chair"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Tricep Dips</div>
+            <div class="exercise-subtitle">
+              3 sets of 15 reps | 60 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          An effective exercise for tricep development. Using parallel bars or a bench, lower your body by bending your elbows, then press back up.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Targets triceps and builds arm definition</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Engages shoulders and chest as secondary muscles</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves pushing strength for various exercises</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">160</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Upper</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Burpees -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-fire"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Burpees</div>
+            <div class="exercise-subtitle">
+              3 sets of 10 reps | 60 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          A high-intensity full-body exercise that combines strength and cardio. Drop to a push-up position, perform a push-up, jump feet forward, then explosively jump up.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Provides full-body strength conditioning</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Burns significant calories and fat</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves cardiovascular fitness and endurance</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">280</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Full Body</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pull-Ups -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-level-up-alt"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Pull-Ups</div>
+            <div class="exercise-subtitle">
+              3 sets of 8 reps | 90 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          A challenging upper body pulling exercise. Hang from a bar with hands slightly wider than shoulder-width, then pull your body up until your chin clears the bar.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Builds back, biceps, and grip strength</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Develops upper body pulling power</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves posture and shoulder stability</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">240</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Upper</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Russian Twists -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-icon">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+          <div class="exercise-title-container">
+            <div class="exercise-title">Russian Twists</div>
+            <div class="exercise-subtitle">
+              3 sets of 20 reps | 45 sec rest
+            </div>
+          </div>
+        </div>
+        <div class="exercise-description">
+          An effective core exercise targeting obliques. Sit with knees bent and torso leaned back, then twist side to side with control, touching the ground on each side.
+        </div>
+        <div class="exercise-details">
+          <div class="exercise-benefits">
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Strengthens obliques and deep core muscles</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Improves rotational strength and stability</div>
+            <div class="benefit-item"><i class="fas fa-check benefit-icon"></i> Enhances athletic performance and coordination</div>
+          </div>
+          <div class="exercise-stats">
+            <div class="stat">
+              <div class="stat-value">150</div>
+              <div class="stat-label">Calories/30min</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+              <div class="stat-value">Core</div>
+              <div class="stat-label">Target Area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p class="copyright">© 2025 Strength Workouts Guide. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple hover effects
+    document.querySelectorAll('.exercise-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px)';
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+      });
+    });
+  </script>
+</body>
+</html>

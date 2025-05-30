@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardio Workouts Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: #1c1c1e;
+            --card-hover: #252529;
+            --text: #f0f0f0;
+            --accent: #facc15;
+            --muted: #aaa;
+            --highlight: #4ade80;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(to right, rgba(28, 28, 30, 0.9), rgba(28, 28, 30, 0.95)), url('/static/assets/cardio_background.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, var(--accent), #f97316);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .tagline {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+            font-weight: 300;
+        }
+        .exercise-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .exercise-card:hover {
+            transform: scale(1.05);
+            background: var(--card-hover);
+        }
+        .exercise-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--highlight);
+        }
+        .exercise-description {
+            font-size: 1rem;
+            color: var(--muted);
+        }
+        .section {
+            padding: 2rem;
+            margin: 2rem 0;
+            background: var(--card-bg);
+            border-radius: 10px;
+        }
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .section p {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Cardio Workouts</h1>
+            <p class="tagline">Boost your endurance and burn calories with these high-energy cardio exercises.</p>
+        </div>
+    </header>
+    <div class="content">
+        <section class="section">
+            <h2>Introduction to Cardio</h2>
+            <p>Cardio exercises are essential for improving heart health, increasing stamina, and burning calories. They are suitable for all fitness levels and can be performed anywhere.</p>
+        </section>
+        <section class="section">
+            <h2>Benefits of Cardio</h2>
+            <ul>
+                <li>Improves cardiovascular health</li>
+                <li>Burns calories and aids in weight loss</li>
+                <li>Boosts energy levels</li>
+                <li>Enhances lung capacity</li>
+                <li>Reduces stress and improves mood</li>
+            </ul>
+        </section>
+        <div class="exercise-list">
+            <div class="exercise-card">
+                <h2 class="exercise-title">Jumping Jacks</h2>
+                <p class="exercise-description">3 sets of 1 minute. Benefits: Full-body warm-up and calorie burn.</p>
+            </div>
+            <div class="exercise-card">
+                <h2 class="exercise-title">High Knees</h2>
+                <p class="exercise-description">3 sets of 30 seconds. Benefits: Improves coordination and strengthens legs.</p>
+            </div>
+            <div class="exercise-card">
+                <h2 class="exercise-title">Burpees</h2>
+                <p class="exercise-description">3 sets of 10 reps. Benefits: Full-body workout and boosts endurance.</p>
+            </div>
+            <div class="exercise-card">
+                <h2 class="exercise-title">Mountain Climbers</h2>
+                <p class="exercise-description">3 sets of 30 seconds. Benefits: Strengthens core and increases heart rate.</p>
+            </div>
+        </div>
+        <section class="section">
+            <h2>Tips for Effective Cardio</h2>
+            <p>Start with a warm-up to prepare your body. Maintain a steady pace and focus on proper form. Cool down and stretch after your workout to prevent injuries.</p>
+        </section>
+        <section class="section">
+            <h2>Frequently Asked Questions</h2>
+            <p><strong>Q: How often should I do cardio?</strong></p>
+            <p>A: Aim for at least 150 minutes of moderate-intensity cardio per week.</p>
+            <p><strong>Q: Can I do cardio every day?</strong></p>
+            <p>A: Yes, but ensure you vary the intensity and type of exercises to avoid overtraining.</p>
+        </section>
+    </div>
+</body>
+</html>
