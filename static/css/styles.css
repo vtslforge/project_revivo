@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    height: auto; /* Allow the page height to adjust dynamically */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+body {
+    background-color: #0a0a0a;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.logo, .subtitle {
+    display: none;
+}
+
+.dashboard {
+    display: grid; /* Use grid layout for precise control */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-rows: repeat(2, auto); /* 2 rows */
+    gap: 20px; /* Add spacing between rows and columns */
+    justify-content: center; /* Center the grid */
+    align-items: center; /* Center the grid items */
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 400px; /* Move the boxes closer to the top */
+    padding: 20px;
+}
+
+.box {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none; /* Remove the border from the cards */
+    height: auto; /* Ensure boxes adjust dynamically */
+    min-height: 250px; /* Reduce the minimum height for better proportions */
+    min-width: 400px; /* Increase the minimum width of the boxes */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: pop 0.3s ease-in-out; /* Add pop animation */
+}
+
+.box:hover {
+    transform: translateY(-5px);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.box-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.box h3, .box p {
+    display: none; /* Hide all text elements inside the boxes */
+}
+
+.workout-box {
+    position: relative; /* Ensure the pseudo-element is positioned relative to the card */
+    background-image: url('/static/assets/workout.jpg'); /* Add background image to workout card */
+    background-size: cover; /* Ensure the image covers the entire card */
+    background-position: center; /* Center the image within the card */
+}
+
+.workout-box::before {
+    content: "Workout"; /* Add the text 'Workout' on top of the card */
+    position: absolute;
+    top: 50%; /* Align text vertically in the middle */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center text horizontally and vertically */
+    font-size: 3rem; /* Increase the font size */
+    font-weight: bold;
+    color: transparent;
+    -webkit-text-stroke: 0.5px white; /* Make the border slimmer */
+    text-transform: uppercase;
+    z-index: 2; /* Ensure the text appears above the background image */
+}
+
+.food-box {
+    background-image: url('/static/assets/food ana.jpg'); /* Add background image to food analysis card */
+    background-size: cover; /* Ensure the image covers the entire card */
+    background-position: center; /* Center the image within the card */
+    position: relative; /* Ensure the pseudo-element is positioned relative to the card */
+}
+
+.food-box::before {
+    content: "Food"; /* Add the text 'Food' on top of the card */
+    position: absolute;
+    top: 50%; /* Align text vertically in the middle */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center text horizontally and vertically */
+    font-size: 3rem; /* Increase the font size */
+    font-weight: bold;
+    color: transparent;
+    -webkit-text-stroke: 0.5px white; /* Make the border slimmer */
+    text-transform: uppercase;
+    z-index: 2; /* Ensure the text appears above the background image */
+}
+
+.explore-box {
+    background-image: url('/static/assets/nutrition.jpeg'); /* Add background image to explore card */
+    background-size: cover; /* Ensure the image covers the entire card */
+    background-position: center; /* Center the image within the card */
+    position: relative; /* Ensure the pseudo-element is positioned relative to the card */
+}
+
+.explore-box::before {
+    content: "Explore"; /* Add the text 'Explore' on top of the card */
+    position: absolute;
+    top: 50%; /* Align text vertically in the middle */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center text horizontally and vertically */
+    font-size: 3rem; /* Increase the font size */
+    font-weight: bold;
+    color: transparent;
+    -webkit-text-stroke: 0.5px white; /* Make the border slimmer */
+    text-transform: uppercase;
+    z-index: 2; /* Ensure the text appears above the background image */
+}
+
+.analytics-box {
+    background-image: url('/static/assets/analytics.jpeg'); /* Add background image to analytics card */
+    background-size: cover; /* Ensure the image covers the entire card */
+    background-position: center; /* Center the image within the card */
+    position: relative; /* Ensure the pseudo-element is positioned relative to the card */
+}
+
+.analytics-box::before {
+    content: "Analytics"; /* Add the text 'Analytics' on top of the card */
+    position: absolute;
+    top: 50%; /* Align text vertically in the middle */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center text horizontally and vertically */
+    font-size: 3rem; /* Increase the font size */
+    font-weight: bold;
+    color: transparent;
+    -webkit-text-stroke: 0.5px white; /* Make the border slimmer */
+    text-transform: uppercase;
+    z-index: 2; /* Ensure the text appears above the background image */
+}
+
+/* Updated font size and visibility for pseudo-elements */
+.workout-box::before, .food-box::before, .explore-box::before, .analytics-box::before {
+    font-size: 5rem; /* Increase font size to almost cover the card */
+    -webkit-text-stroke: 1px white; /* Make the border more visible */
+}
+
+.workout-box:hover { background-color: rgba(76, 175, 80, 0.2); }
+.food-box:hover { background-color: rgba(255, 152, 0, 0.2); }
+.explore-box:hover { background-color: rgba(33, 150, 243, 0.2); }
+.analytics-box:hover { background-color: rgba(156, 39, 176, 0.2); }
+
+.animated-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.05;
+    background: linear-gradient(45deg, #4CAF50, #FF9800, #2196F3, #9C27B0);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Back Button (for all subpages) */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 100;
+    transition: all 0.3s;
+    display: none; /* Hide the back button on the dashboard */
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.top-background {
+    background-image: url('/static/assets/Revivo Background.jpg');
+    background-size: cover;
+    background-position: center center;
+    height: 90vh; /* Use viewport height for dynamic sizing */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+/* Add text to the top background */
+.top-background::before {
+    content: "Revivo Health"; /* Add the text 'Revivo Health' on top of the background */
+    position: absolute;
+    top: 50%; /* Align text vertically in the middle */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center text horizontally and vertically */
+    font-size: 6rem; /* Large font size for visibility */
+    font-weight: bold;
+    color: white; /* White text color for contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better visibility */
+    z-index: 1; /* Ensure the text appears above the background image */
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0.95);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
